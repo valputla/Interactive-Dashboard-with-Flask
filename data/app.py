@@ -1,11 +1,15 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, jsonify
 from flask_pymongo import PyMongo
-import scrape_mars
+from covid_data import *
+import json
+import numpy as np
+import pandas as pd
+from bson import json_util
 
 app = Flask(__name__)
 
 # Use flask_pymongo to set up mongo connection
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/phone_app"
+# app.fconfig["MONGO_URI"] = "mongodb://localhost:27017/phone_app"
 # mongo = PyMongo(app)
 
 # Or set inline
@@ -20,17 +24,38 @@ def index():
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
     return render_template("index.html")
+    
 
 # set our path to /scrape
 @app.route("/scrape")
 def scraper():
     # call the scrape function in our scrape_phone file. This will scrape and save to mongo.
-    covid_data = scrape_mars.scrape()
+    covid_dataset = scrape()
     # update our listings with the data that is being scraped or create&insert if collection doesn't exist
-    covid_collection.insert_one(covid_data.to_dict('index'))
+    covid_collection.insert_one(covid_dataset.to_dict('index'))
     # return a message to our page so we know it was successful.
     return redirect("/", code=302)
 
+
+@app.route("/home")
+def homepage():
+    return(
+        f"COVID Data API <br/>"
+        f"Available Routes:<br/>"
+        f"/api/v1.0/dashboard<br>"
+        #f"/api/v1.0/covid-data/visualization/map<br>"
+        #f"/api/v1.0/covid-data/visualization/barchart<br>"
+        #f"/api/v1.0/covid-data/visualization/linegraph"
+    )
+
+@app.route("/home/api/v1.0/dashboard")
+def covid_data():
+    #print(covid_collection)
+    data = covid_collection.find()
+    return jsonify(json_util.dumps([datum for datum in data]))
+    
+
+  
 
 if __name__ == "__main__":
     app.run(debug=True)
