@@ -129,6 +129,9 @@ function initDashboard() {
             states.add(data.state)
         });
         states = Array.from(states);
+        // make United States default when open website
+        var US = states[45]
+        states.unshift(US)
 
         years.forEach(year => {
             dropdown.append("option").text(year).property("value", year);
