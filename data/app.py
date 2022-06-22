@@ -8,6 +8,8 @@ from bson import json_util
 
 app = Flask(__name__)
 
+
+
 # Use flask_pymongo to set up mongo connection
 # app.fconfig["MONGO_URI"] = "mongodb://localhost:27017/phone_app"
 # mongo = PyMongo(app)
@@ -43,19 +45,28 @@ def homepage():
         f"COVID Data API <br/>"
         f"Available Routes:<br/>"
         f"/api/v1.0/dashboard<br>"
-        #f"/api/v1.0/covid-data/visualization/map<br>"
-        #f"/api/v1.0/covid-data/visualization/barchart<br>"
-        #f"/api/v1.0/covid-data/visualization/linegraph"
+        f"/api/v1.0/covid-data/visualization/map<br>"
+        f"/api/v1.0/covid-data/visualization/barchart<br>"
+        f"/api/v1.0/covid-data/visualization/linegraph"
     )
+
+
 
 @app.route("/home/api/v1.0/dashboard")
 def covid_data():
-    #print(covid_collection)
     data = covid_collection.find()
-    return jsonify(json_util.dumps([datum for datum in data]))
-    
+    dataset = list(data)
+    return json_util.dumps([datum for datum in dataset], indent=4, sort_keys = True)
 
-  
+
+map_file_path = '../Map-Visualization-Data/static/js/us-states.js'
+
+@app.route("/home/api/v1.0/covid-data/visualization/map")
+def map_data():
+    #print(covid_collection)
+    with open(map_file_path, 'r') as j:
+        contents = json.loads(j.read())
+    return jsonify(contents)
 
 if __name__ == "__main__":
     app.run(debug=True)
