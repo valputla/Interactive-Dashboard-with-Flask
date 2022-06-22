@@ -23,16 +23,17 @@ def index():
     # find one document from our mongo db and return it.
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
-    return render_template("index.html")
+    return render_template("Plotly_Barchart/index-barchart.html")
     
 
 # set our path to /scrape
 @app.route("/scrape")
 def scraper():
+    covid_collection.delete_many({})
     # call the scrape function in our scrape_phone file. This will scrape and save to mongo.
     covid_dataset = scrape()
     # update our listings with the data that is being scraped or create&insert if collection doesn't exist
-    covid_collection.insert_one(covid_dataset.to_dict('index'))
+    covid_collection.insert_many(covid_dataset.to_dict('records'))
     # return a message to our page so we know it was successful.
     return redirect("/", code=302)
 
@@ -51,7 +52,7 @@ def homepage():
 @app.route("/home/api/v1.0/dashboard")
 def covid_data():
     #print(covid_collection)
-    data = covid_collection.find()
+    data = covid_collection.find({"Group": "By Year"}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0})
     return jsonify(json_util.dumps([datum for datum in data]))
     
 
