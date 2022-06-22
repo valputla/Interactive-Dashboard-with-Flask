@@ -116,9 +116,11 @@ function initDashboard() {
     var dropdown = d3.select("#selyear");
     var dropdown2 = d3.select("#selstate");
 
-    d3.json("covid.json").then(data => {
+    d3.json("/home/api/v1.0/dashboard").then(data => {
 
-        var years = new Set();
+        console.log(data);
+
+/*         var years = new Set();
         data.forEach(data => {
             years.add(data.year)
         });
@@ -143,7 +145,7 @@ function initDashboard() {
         });
 
         buildCharts(years[0], states[0]);
-        populateDemoInfo(years[0], states[0]);
+        populateDemoInfo(years[0], states[0]); */
     });
 };
 

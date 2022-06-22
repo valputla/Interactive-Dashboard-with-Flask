@@ -21,9 +21,9 @@ covid_collection = mongo.db.covid
 @app.route("/")
 def index():
     # find one document from our mongo db and return it.
-    covid_results = covid_collection.find({"Group": "By Year"}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0})
+    covid_results = covid_collection.find_one()
     # pass that listing to render_template
-    return render_template("index.html", data = jsonify(json_util.dumps([datum for datum in covid_results])))
+    return render_template("Plotly_Barchart/index-barchart.html")
     
 
 # set our path to /scrape
