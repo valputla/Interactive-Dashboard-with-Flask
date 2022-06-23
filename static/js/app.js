@@ -1,9 +1,9 @@
 // Create Bar Chart 
-
+console.log("hello");
 function buildCharts(year_dropdown, state_dropdown) {
 
     // bring data 
-    d3.json("covid.json").then((data => {
+    d3.json("/home/api/v1.0/dashboard").then((data => {
 
 
         // define bar data
@@ -16,19 +16,19 @@ function buildCharts(year_dropdown, state_dropdown) {
 
     //    filter by year and state
 
-        var filteredBarinfo = data.filter(barinfo => barinfo.state == state_dropdown)
-                                .filter(barinfo => barinfo.year == year_dropdown)
+        var filteredBarinfo = data.filter(barinfo => barinfo.State == state_dropdown)
+                                .filter(barinfo => barinfo.Year == year_dropdown)
                                 
 
-        console.log(filteredBarinfo[0])
+        console.log("Filtered", filteredBarinfo[0])
 
           // filters out the gender from all the records, then takes those records and puts only deaths into a list
-          var deaths_male = filteredBarinfo.filter(i => i.sex=='Male').map(i => i.deaths)
-          var deaths_female = filteredBarinfo.filter(i => i.sex=='Female').map(i => i.deaths)
+          var deaths_male = filteredBarinfo.filter(i => i.Sex=='Male').filter(i => i['Age Group'] != 'All Ages').map(i => i["COVID-19 Deaths"])
+          var deaths_female = filteredBarinfo.filter(i => i.Sex=='Female').filter(i => i['Age Group'] != 'All Ages').map(i => i["COVID-19 Deaths"])
 
         // https://plotly.com/javascript/bar-charts/ - bar formatt 
 
-            console.log(deaths_male)
+            console.log("Male Deaths", deaths_male)
 
             var male = {
             x: age_groups,
@@ -47,7 +47,7 @@ function buildCharts(year_dropdown, state_dropdown) {
         var bar_data = [male, female];
 
         var bar_layout = {
-            title: "COVID Deaths by Age Group",
+            title: "COVID Deaths by Age Group - " + state_dropdown + " " + year_dropdown,
             xaxis: { title: "Age Group" },
             yaxis: { title: "Deaths Count" },
             barmode: 'group',
@@ -69,14 +69,14 @@ function buildCharts(year_dropdown, state_dropdown) {
 function populateDemoInfo(year, state) {
 
     // bring in data
-    d3.json("covid.json").then(data => {
+    d3.json("/home/api/v1.0/dashboard").then(data => {
 
 
         // filter data - chain filters
-        var filteredData = data.filter(stateinfo => stateinfo.state == state)
-            .filter(stateinfo => stateinfo.year == year)
-            .filter(stateinfo => stateinfo['age group'] == "All Ages")
-            .filter(stateinfo => stateinfo['sex'] == "All Sexes");
+        var filteredData = data.filter(stateinfo => stateinfo.State == state)
+            .filter(stateinfo => stateinfo.Year == year)
+            .filter(stateinfo => stateinfo['Age Group'] == "All Ages")
+            .filter(stateinfo => stateinfo['Sex'] == "All Sexes");
         // check filter results
         console.log("demo info filteredDate results", filteredData[0])
 
@@ -120,19 +120,21 @@ function initDashboard() {
 
         console.log(data);
 
-/*         var years = new Set();
+        var years = new Set();
         data.forEach(data => {
-            years.add(data.year)
+            years.add(data.Year)
         });
         years = Array.from(years);
 
         var states = new Set();
         data.forEach(data => {
-            states.add(data.state)
+            states.add(data.State)
         });
         states = Array.from(states);
+        console.log("Years", years)
+        console.log("State", states)
         // make United States default when open website
-        var US = states[45]
+        var US = states[0]
         states.unshift(US)
 
         years.forEach(year => {
@@ -145,8 +147,20 @@ function initDashboard() {
         });
 
         buildCharts(years[0], states[0]);
-        populateDemoInfo(years[0], states[0]); */
+        populateDemoInfo(years[0], states[0]);
     });
 };
 
 initDashboard();
+
+
+/* [
+    {
+        "_id": {"$oid": "62b2630abae67b22d954843d"}, 
+        "Group": "By Year", 
+        "Year": "2020", 
+        "State": "United States", 
+        "Sex": "All Sexes", 
+        "Age Group": "All Ages", 
+        "COVID-19 Deaths": 385480.0
+    } */

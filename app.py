@@ -23,7 +23,7 @@ def index():
     # find one document from our mongo db and return it.
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
-    return render_template("Plotly_Barchart/index-barchart.html")
+    return render_template("index-barchart.html")
     
 
 # set our path to /scrape
@@ -52,8 +52,13 @@ def homepage():
 @app.route("/home/api/v1.0/dashboard")
 def covid_data():
     #print(covid_collection)
-    data = covid_collection.find({"Group": "By Year"}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0})
-    return jsonify(json_util.dumps([datum for datum in data]))
+    data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0}))
+    #return jsonify(json_util.dumps([datum for datum in data]))
+    #return json.loads(json_util.dumps(data))
+    #return json.dumps(data, indent=2, sort_keys=True)
+    return json.dumps(data, default=json_util.default)
+    #for x in data:
+     #   return json.loads(json_util.dumps(x))
     
 
   
