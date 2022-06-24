@@ -4,7 +4,7 @@
     console.log("Hello");
     var myChart = undefined;
 
-        d3.json("data.json").then(function(data) {
+        d3.json("/home/api/v1.0/covid-data/visualization/linegraph").then(function(data) {
             console.log(data);    
             var year = data.map(x => x.Year);
             console.log(year)
@@ -30,7 +30,7 @@
 
     function createLineGraph(id){
 
-        d3.json("data.json").then(function(data1) {
+        d3.json("/home/api/v1.0/covid-data/visualization/linegraph").then(function(data1) {
         console.log(data1);
 
         data = data1.filter(row => row.Year == id);
