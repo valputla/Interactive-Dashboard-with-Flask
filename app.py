@@ -28,7 +28,14 @@ def index():
 @app.route("/barchart")
 def barchart():
     return render_template("index-barchart.html")
-    
+
+@app.route("/map")
+def map():
+    return render_template("index-map.html")
+
+@app.route("/linegraph")
+def linegraph():
+    return render_template("index-linegraph.html")
 
 # set our path to /scrape
 @app.route("/scrape")
@@ -48,24 +55,28 @@ def homepage():
         f"COVID Data API <br/>"
         f"Available Routes:<br/>"
         f"/api/v1.0/dashboard<br>"
-        #f"/api/v1.0/covid-data/visualization/map<br>"
-        #f"/api/v1.0/covid-data/visualization/barchart<br>"
-        #f"/api/v1.0/covid-data/visualization/linegraph"
+        f"/api/v1.0/covid-data/visualization/map<br>"
+        f"/api/v1.0/covid-data/visualization/barchart<br>"
+        f"/api/v1.0/covid-data/visualization/linegraph"
     )
 
-@app.route("/home/api/v1.0/dashboard")
-def covid_data():
-    #print(covid_collection)
-    data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0}))
-    #return jsonify(json_util.dumps([datum for datum in data]))
-    #return json.loads(json_util.dumps(data))
-    #return json.dumps(data, indent=2, sort_keys=True)
-    return json.dumps(data, default=json_util.default)
-    #for x in data:
-     #   return json.loads(json_util.dumps(x))
+
+@app.route('/home/api/v1.0/covid-data/visualization/barchart')
+def bar_data():
+    bar_data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {'Month': 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0, "Group": 0}))
+    return json.dumps(bar_data, default=json_util.default)
     
 
-  
+@app.route("/home/api/v1.0/covid-data/visualization/map")
+def map_data():
+    with open(map_file_path, 'r') as j:
+        contents = json.loads(j.read())
+    return jsonify(contents)
+
+@app.route('/home/api/v1.0/covid-data/visualization/linegraph')
+def line_data():
+    line_data = list(covid_collection.find({"State": "United States", "Age Group": "All Ages", "Sex": "All Sexes", "COVID-19 Deaths": {"$ne": np.nan}, "Pneumonia 19 Deaths": {"$ne": np.nan}, "Influenza Deaths": {"$ne": np.nan}, "Group": "By Month"}, {"Population": 0, "Group": 0}))
+    return json.dumps(line_data, default=json_util.default)
 
 if __name__ == "__main__":
     app.run(debug=True)
