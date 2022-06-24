@@ -1,22 +1,23 @@
 
 // function init(){
     // Fetch the JSON data and console log it
+    console.log("Hello");
     var myChart = undefined;
 
         d3.json("data.json").then(function(data) {
-        console.log(data);    
-        var year = data.map(x => x.Year);
-        console.log(year)
-        let unique = year.filter((item, i, ar) => ar.indexOf(item) === i);
-        console.log(unique);
+            console.log(data);    
+            var year = data.map(x => x.Year);
+            console.log(year)
+            let unique = year.filter((item, i, ar) => ar.indexOf(item) === i);
+            console.log(unique);
         
     
-         for(let i=0; i<unique.length; i++){
-            let option_sel = d3.select("#selDataset")
-            option_sel.append("option").text(unique[i]).attr("value",unique[i]);
-        }       
+            for(let i=0; i<unique.length; i++){
+                let option_sel = d3.select("#selDataset")
+                option_sel.append("option").text(unique[i]).attr("value",unique[i]);
+            }       
 
-         createLineGraph("2020");
+            createLineGraph("2020");
         
     })
 

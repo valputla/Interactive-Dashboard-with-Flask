@@ -3,7 +3,7 @@ console.log("hello");
 function buildCharts(year_dropdown, state_dropdown) {
 
     // bring data 
-    d3.json("/home/api/v1.0/dashboard").then((data => {
+    d3.json("/home/api/v1.0/covid-data/visualization/barchart").then((data => {
 
 
         // define bar data
@@ -69,7 +69,7 @@ function buildCharts(year_dropdown, state_dropdown) {
 function populateDemoInfo(year, state) {
 
     // bring in data
-    d3.json("/home/api/v1.0/dashboard").then(data => {
+    d3.json("/home/api/v1.0/covid-data/visualization/barchart").then(data => {
 
 
         // filter data - chain filters
@@ -116,7 +116,7 @@ function initDashboard() {
     var dropdown = d3.select("#selyear");
     var dropdown2 = d3.select("#selstate");
 
-    d3.json("/home/api/v1.0/dashboard").then(data => {
+    d3.json("/home/api/v1.0/covid-data/visualization/barchart").then(data => {
 
         console.log(data);
 
@@ -152,15 +152,3 @@ function initDashboard() {
 };
 
 initDashboard();
-
-
-/* [
-    {
-        "_id": {"$oid": "62b2630abae67b22d954843d"}, 
-        "Group": "By Year", 
-        "Year": "2020", 
-        "State": "United States", 
-        "Sex": "All Sexes", 
-        "Age Group": "All Ages", 
-        "COVID-19 Deaths": 385480.0
-    } */
