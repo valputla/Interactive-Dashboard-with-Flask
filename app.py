@@ -24,6 +24,10 @@ def index():
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
     return render_template("index.html")
+
+@app.route("/barchart")
+def barchart():
+    return render_template("index-barchart.html")
     
 
 # set our path to /scrape
