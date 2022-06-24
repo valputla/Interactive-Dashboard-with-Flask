@@ -63,7 +63,7 @@ def homepage():
 
 @app.route('/home/api/v1.0/covid-data/visualization/barchart')
 def bar_data():
-    bar_data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {'Month': 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0, "Group": 0}))
+    bar_data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {'Month': 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0, "Group": 0, "_id": 0}))
     return json.dumps(bar_data, default=json_util.default)
     
 
