@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 
 
 def scrape():
-    health_df = pd.read_csv("../Resources/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
+    health_df = pd.read_csv("Resources/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv")
     health_df = health_df.drop(columns = ["Data As Of", "Start Date", "End Date", "Footnote"])
 
     age_adjusted_df = health_df.loc[(health_df["Age Group"] != "40-49 years") &
@@ -22,7 +22,7 @@ def scrape():
     age_adjusted_df["Year"] = age_adjusted_df["Year"].astype(str).str.slice(stop=4)
     age_adjusted_df
 
-    population_df = pd.read_csv("../Resources/population.csv")
+    population_df = pd.read_csv("Resources/population.csv")
 
     final_df = age_adjusted_df.merge(population_df, on ="State")
     final_df.index = final_df.index.astype(str)

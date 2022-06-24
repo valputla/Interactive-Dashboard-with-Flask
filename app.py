@@ -25,7 +25,7 @@ def index():
     # find one document from our mongo db and return it.
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
-    return render_template("index-barchart.html")
+    return render_template("index.html")
     
 
 # set our path to /scrape
@@ -59,15 +59,14 @@ def homepage():
 def covid_data():
     dash_data = covid_collection.find()
     dash_dataset = list(dash_data)
-    return json_util.dumps([datum for datum in dash_dataset], indent=4, sort_keys = True)
+    return json.dumps(dash_data, default=json_util.default)
 
 
-map_file_path = '../Map-Visualization-Data/static/js/us-states.js'
+map_file_path = 'Map-Visualization-Data/static/js/us-states.js'
 
 @app.route("/home/api/v1.0/covid-data/visualization/map")
 def map_data():
     #print(covid_collection)
-<<<<<<< HEAD:data/app.py
     with open(map_file_path, 'r') as j:
         contents = json.loads(j.read())
     return jsonify(contents)
@@ -75,19 +74,7 @@ def map_data():
 @app.route('/home/api/v1.0/covid-data/visualization/barchart')
 def bar_data():
     bar_data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {'Month': 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0, "Group": 0}))
-    #return jsonify(json_util.dumps([datum for datum in data]))
-    #return json.loads(json_util.dumps(data))
-    #return json.dumps(data, indent=2, sort_keys=True)
     return json.dumps(bar_data, default=json_util.default)
-=======
-    data = list(covid_collection.find({"Group": "By Year", "COVID-19 Deaths": {"$ne": np.nan}}, {"Month": 0, "Pneumonia Deaths": 0, "Influenza Deaths": 0, "Population": 0}))
-    #return jsonify(json_util.dumps([datum for datum in data]))
-    #return json.loads(json_util.dumps(data))
-    #return json.dumps(data, indent=2, sort_keys=True)
-    return json.dumps(data, default=json_util.default)
->>>>>>> dd6d52231781143bac18d3ec03d1e21b32034016:app.py
-    #for x in data:
-     #   return json.loads(json_util.dumps(x))
     
 
 @app.route('/home/api/v1.0/covid-data/visualization/linegraph')
