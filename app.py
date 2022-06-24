@@ -23,7 +23,7 @@ def index():
     # find one document from our mongo db and return it.
     covid_results = covid_collection.find_one()
     # pass that listing to render_template
-    return render_template("index-barchart.html")
+    return render_template("index.html")
     
 
 # set our path to /scrape
