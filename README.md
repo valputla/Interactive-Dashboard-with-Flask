@@ -45,7 +45,8 @@ The structure of the project includes the following folders/files:
 
 DashBoard
 
-![dashboard.png](images/dashboard.png)
+![Dashboard Home page](https://user-images.githubusercontent.com/93561950/175755285-e09a1c41-c69e-4aec-95e8-d93df917a724.png)
+
 
 Choropleth Map 
 
