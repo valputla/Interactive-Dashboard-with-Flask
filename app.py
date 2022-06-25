@@ -37,9 +37,6 @@ def map():
 def linegraph():
     return render_template("index-linegraph.html")
 
-@app.route("/Contact")
-def contact():
-    return render_template("Contact.html")
 
 # set our path to /scrape
 @app.route("/scrape")
