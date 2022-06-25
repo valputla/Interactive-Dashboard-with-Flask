@@ -251,3 +251,7 @@
 .u-section-1 .u-btn-3.u-btn-3.u-btn-3.hover {
   box-shadow: 2px 2px 8px 0 rgba(128,128,128,1) !important;
 }
+
+body {
+  background-image: url('https://www.choosept.com/globalassets/choosept/assets/spotlight-images/covid-19-man-mask_750x419.jpg');
+}

@@ -368,8 +368,9 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
-  margin: 0;
+  margin: 0
 }
+
 article,
 aside,
 details,
@@ -18506,15 +18507,15 @@ a.pswp__share--download:hover {
   }
   to {
     transform-origin: center center;
-    transform: translate3d(-50% !important, -50% !important, 0);
+    transform: translate3d(-50% )!important, -50% !important, 0);
     opacity: 1;
   }
 }
 @keyframes customAnimationOut {
   from {
     transform-origin: center center;
-    transform: translate3d(-50% !important, -50% !important, 0);
-    opacity: 1;
+    transform: translate3d(-50% !important; -50% !important, 0);
+    opacity{: 1;
   }
   to {
     transform-origin: center center;
